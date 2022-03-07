@@ -1,44 +1,78 @@
 <template>
-  <div class="page-container">
-    <div class="row">
-      <div class="col flex justify-between">
-        <span>
-          برای ثبت سوال جدید میتوانید تصویر صورت سوال را در این صفحه آپلود کنید یا به صورت مستقیم آن ها را تایپ کنید
-          <q-btn
-            icon-right="isax:info-circle"
-            label="بیشتر بخوانید"
-            flat
-            rounded
-            color="primary"
-          />
-        </span>
-        <q-btn
-          label="تایپ سوال"
-          color="primary"
-          class="change-type"
-          unelevated
-        />
-      </div>
-    </div>
+  <div class="createQ-text-container">
+    <Navbar @chosenComponent="chosenComponent"/>
+    <DynamicComponent :component="currentComponent" :key="componentKey"/>
   </div>
 </template>
 
 <script>
+import Navbar from 'components/Question/QuestionPage/Create/textMode/Navbar'
+import DynamicComponent from 'components/Question/QuestionPage/Create/textMode/questionTypes/DynamicComponent'
 export default {
-  name: 'CreateText'
+  name: 'CreateText',
+  components: {
+    DynamicComponent,
+    Navbar
+  },
+  props: {},
+  data () {
+    return {
+      componentsNames: [
+        {
+          componentName: 'MultipleChoiceQ',
+          tabName: 'تستی'
+        },
+        {
+          componentName: 'DescriptiveQ',
+          tabName: 'تشریحی'
+        },
+        {
+          componentName: 'MBTIQ',
+          tabName: 'ام بی تی آی'
+        }
+      ],
+      currentComponent: {
+        componentName: 'MultipleChoiceQ',
+        tabName: 'تستی'
+      },
+      componentKey: 0
+    }
+  },
+  methods: {
+    chosenComponent (cName) {
+      const that = this
+      this.componentsNames.forEach(function (item) {
+        if (item.tabName === cName) {
+          that.currentComponent.componentName = item.componentName
+          that.currentComponent.tabName = item.tabName
+        }
+      })
+      this.forceRerenderComponent()
+    },
+    forceRerenderComponent () {
+      this.componentKey += 1
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
-.page-container {
+.createQ-text-container {
   padding: 40px 100px;
   display: flex;
   flex-direction: column;
+}
+.slide-fade-enter-active {
+   transition: all 0.3s ease-out;
+ }
 
-  .change-type {
-    width: 144px;
-    height: 40px;
-    border-radius: 10px;
-  }
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
