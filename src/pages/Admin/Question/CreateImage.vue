@@ -22,20 +22,27 @@
     </div>
     <div class="row">
       <div class="col">
-        <upload-image title="صورت سوال" />
+        <upload-image v-model="question" title="صورت سوال" key="statement_photo" />
       </div>
       <div class="col">
-        <upload-image title="پاسخ سوال" />
+        <upload-image v-model="question" title="پاسخ سوال" key="answer_photo" />
       </div>
     </div>
+    <div class="row">test</div>
   </div>
 </template>
 
 <script>
 import uploadImage from '../../../components/Question/QuestionPage/UploadImage'
+import { Question } from '../../../models/Question'
 export default {
   name: 'CreateImage',
-  components: { uploadImage }
+  components: { uploadImage },
+  data () {
+    return {
+      question: new Question()
+    }
+  }
 }
 </script>
 

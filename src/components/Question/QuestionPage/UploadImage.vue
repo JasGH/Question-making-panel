@@ -5,6 +5,9 @@
     <file-pond
       :allow-multiple="true"
       :labelIdle="dropAreaHTML"
+      accepted-file-types="image/jpeg, image/png"
+      name="files"
+      :server="serverConfig"
     />
   </div>
 </template>
@@ -36,7 +39,13 @@ export default {
             <p style="color: #8075DC">انتخاب فایل </p>
           </div>
         </div>
-      `
+      `,
+      serverConfig: {
+        url: '/3a/api/v1/question',
+        headers: {
+          Authorization: 'Bearer ' + this.$store.getters
+        }
+      }
     }
   },
   props: {
