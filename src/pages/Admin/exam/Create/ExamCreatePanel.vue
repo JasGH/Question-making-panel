@@ -123,8 +123,9 @@ export default {
       return this.allTabs.indexOf(tab) === this.allTabs.length - 1
     },
     changeTab (tab) {
-      this.updateExamData()
-      if (this.accept) { this.currentTab = tab }
+      if (this.isDataSuccessfullyUpdated()) {
+        this.currentTab = tab
+      }
     },
     goToLastStep () {
       this.updateExamData()
@@ -165,7 +166,6 @@ export default {
       if (!type) {
         type = 'negative'
       }
-
       messages.forEach((message) => {
         this.$q.notify({
           type,
@@ -173,9 +173,13 @@ export default {
         })
       })
     },
-    checkValues (formDataValues) {
+    isPanelValidated (validationMethod, inputs) {
+      return validationMethod(inputs)
+    },
+    validateCreateExamPanel (inputs) {
+      let status = true
       const messages = []
-      formDataValues.forEach((item) => {
+      inputs.forEach((item) => {
         if (item.type !== 'input' && item.type !== 'dateTime') {
           return
         }
@@ -184,41 +188,42 @@ export default {
         }
         messages.push(item.label + ' الزامی است. ')
       })
-      this.showMessagesInNotify(messages, 'negative')
-    },
-    checkValidate (formDataValues) {
-      for (const item of Object.entries(formDataValues)) {
-        const input = item[1]
-        if (input.type === 'input' || input.type === 'dateTime') {
-          if (!input.value || input.value === 'undefined' || input.value === null) {
-            // this.accept = false
-            break
-          }
-        }
+      if (messages.length > 0) {
+        status = false
+        this.showMessagesInNotify(messages, 'negative')
       }
+      return status
+    },
+    validateChooseQuestionPanel () {
+      return this.exam.questions.list.length > 0
+    },
+    isDataSuccessfullyUpdated () {
+      return this.updateExamData()
     },
     updateExamData () {
+      let status = true
       if (this.currentTab === 'createPage') {
-        const formData = this.$refs.createExam.$refs.EntityCrudFormBuilder.getFormData()
-        const formDataValues = this.$refs.createExam.$refs.EntityCrudFormBuilder.getValues()
-        this.accept = !this.accept
-        this.checkValues(formDataValues)
-        this.checkValidate(formDataValues)
-
-        if (!this.isExamDataInitiated && this.accept) {
-          this.exam = new Exam(formData)
-          this.isExamDataInitiated = true
-          this.accept = true
-        }
-        this.exam = Object.assign(this.exam, formData)
+        status = this.updateCreatePageData()
       }
       if (this.currentTab === 'chooseQuestion' && this.exam.questions.list.length > 0) {
-        this.accept = true
       } else if (this.currentTab === 'chooseQuestion' && this.exam.questions.list.length === 0) {
-        this.accept = false
         const messages = ['یه سوال برامون انتخاب کنن اخوی']
         this.showMessagesInNotify(messages)
       }
+      return status
+    },
+    updateCreatePageData () {
+      const formData = this.$refs.createExam.$refs.EntityCrudFormBuilder.getFormData()
+      const formDataValues = this.$refs.createExam.$refs.EntityCrudFormBuilder.getValues()
+      const isPanelValidated = this.isPanelValidated(this.validateCreateExamPanel, formDataValues)
+      if (!this.isExamDataInitiated) {
+        this.exam = new Exam(formData)
+        this.isExamDataInitiated = true
+      }
+      if (isPanelValidated) {
+        this.exam = Object.assign(this.exam, formData)
+      }
+      return isPanelValidated
     }
   },
   watch: {
