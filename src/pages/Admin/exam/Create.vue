@@ -184,6 +184,637 @@ export default {
           })
         })
         .catch(() => {})
+      const a = { type_id: '6225f4828044517f52500c02', title: 'دسته سوالات تگ خراب (ElementWithWrongTag)', start_at: '2022-12-07 14:15:00', finish_at: '2022-12-21 18:00:00', delay_time: '48', enable: false, is_free: false, is_register_open: false, is_open: false, confirm: false, generate_questions_automatically: false }
+      for (const property in a) {
+        const index = this.inputs.findIndex(obj => obj.name === `${property}`)
+        this.inputs[index].value = a[property]
+      }
+
+      const b = [
+        {
+          id: '63998c292fd9a747500f81d7',
+          title: 'دسته سوالات تگ خراب (ElementWithWrongTag)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-12-10 17:27:22',
+          created_at: '2022-12-10 17:27:22',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false,
+          categories: [],
+          sub_categories: []
+        },
+        {
+          id: '63998c042fd9a747500f81b5',
+          title: 'دسته سوالاتی که آپدیت آن ناموفق بوده است (allFailedUpdateQuestions)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-12-03 18:36:44',
+          created_at: '2022-12-03 18:36:44',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998bea8b517e5c5104d340',
+          title: 'دسته سوالات با مشکلات خراب بودن کسینوس (ElementsWithWrongCosine)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-12-03 10:24:49',
+          created_at: '2022-12-03 10:24:49',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998bd18b517e5c5104d32a',
+          title: 'دسته سوالات دارای علامت زاویه ی خراب(ElementsWithWidehatTag)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:50:28',
+          created_at: '2022-11-30 14:50:28',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998bb78b517e5c5104d307',
+          title: 'دسته سوالات دارای curley bracket - ضوابط و مجموعه ها و..- (ElementWithCurlyBrackets)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:49:21',
+          created_at: '2022-11-30 14:49:13',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998b92b0ab2ad22604e48e',
+          title: 'دسته سوالات با مشکلات خراب بودن سینوس (ElementsWithWrongSinus)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:47:06',
+          created_at: '2022-11-30 14:47:06',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998b71b0ab2ad22604e46d',
+          title: 'دسته سوالات ترکیب خراب (ElementsWithWrongCombination)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:46:04',
+          created_at: '2022-11-30 14:46:04',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998b330c5f8d0b980c99bc',
+          title: 'دسته سوالات دارای توان به همراه پریم (ElementsWithPrimeAndPower)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:45:22',
+          created_at: '2022-11-30 14:45:22',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998b07c8eea92242077262',
+          title: 'دسته 3 سوالات با احتمال پریدن متن به دلیل علامت نامساوی (PossibilityOfTextLossForInequalitySigns)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:44:47',
+          created_at: '2022-11-30 14:44:47',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998abcc8eea92242077213',
+          title: 'دسته 2 سوالات با احتمال پریدن متن فارسی با علامت \\ (ElementWithPossibleLossOfPersianWordsBackslashSymbol)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:44:08',
+          created_at: '2022-11-30 14:44:08',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998aa1a3fb042c6f0b39f3',
+          title: 'دسته سوالات دارای آکولاد زیر فرمول (ElementWithUnderBraces)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:43:18',
+          created_at: '2022-11-30 14:43:18',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998a8aa3fb042c6f0b39bb',
+          title: 'دسته سوالات پریده با علامت های فرمول (ElementWithTheOverlineTag)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:42:39',
+          created_at: '2022-11-30 14:42:39',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998a69a3fb042c6f0b3960',
+          title: 'دسته سوالات کد شده با تگ خاص (ElementWithHtmlStyleTag)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:41:44',
+          created_at: '2022-11-30 14:41:43',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998a45a3fb042c6f0b3933',
+          title: 'دسته سوالات با احتمال پریدن متن فارسی ۱ (ElementWithPossibleLossOfPersianWordsCaretSymbol)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:39:25',
+          created_at: '2022-11-30 14:38:37',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998a2ca3fb042c6f0b3924',
+          title: 'دسته سوالات دارای علامت نامساوی (NotCoddedInequalitySigns)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:37:57',
+          created_at: '2022-11-30 14:37:57',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998a01a3fb042c6f0b3913',
+          title: 'دسته 5 سوالات کد شده (UnclosedFormulaBracket)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:36:50',
+          created_at: '2022-11-30 14:36:50',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '6399899993de5da8d50ecdb6',
+          title: 'دسته 4 سوالات کد شده (OddNumberOfDollarSigns)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:36:28',
+          created_at: '2022-11-30 14:36:04',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '6399897793de5da8d50ecdab',
+          title: 'دسته 3 سوالات کد شده (DataKatexElInTwoDollarSigns)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:35:47',
+          created_at: '2022-11-30 14:35:47',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '6399895893de5da8d50ecd90',
+          title: 'دسته 2 سوالات کد شده (ParagraphWithTwoDollarSigns)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: 'https://cdn.alaatv.com/upload/images/slideShow/home-slide-yalda-festival_20201219075413.jpg?w=1843&h=719',
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:34:56',
+          created_at: '2022-11-30 14:34:56',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        },
+        {
+          id: '63998911875ae1a1bc0c157d',
+          title: 'دسته 1 سوالات کد شده (EmptyFormulaElements)',
+          holding_status: null,
+          start_at: '2022-12-07 14:15:00',
+          finish_at: '2022-12-07 14:15:00',
+          photo: null,
+          delay_time: 48,
+          n_questions: 0,
+          enable: false,
+          updated_at: '2022-11-30 14:14:59',
+          created_at: '2022-11-30 14:14:59',
+          generate_questions_automatically: false,
+          confirm: false,
+          report_config: [],
+          holding_config: {
+            randomize_questions: false
+          },
+          alaa_product_link: null,
+          type: {
+            id: '6225f4828044517f52500c02',
+            type: 'exam_type',
+            value: 'konkur',
+            updated_at: '2022-03-07 15:33:14',
+            created_at: '2022-03-07 15:33:14'
+          },
+          user_exam_id: null,
+          is_free: false,
+          is_register_open: false,
+          is_open: false
+        }
+      ]
+      console.log('b', b)
     },
     getCategories() {
       this.$axios.get(API_ADDRESS.questionCategory.base)
