@@ -192,22 +192,26 @@ class QuestionHandler {
   }
 
   initQuestionModifier (question) {
-    const modifiedQuestion = new QuestionModifier(question, this.$axios)
-    this.allQuestionsStatuses.push({
-      questionId: question.id || question._id,
-      isUpdateRequestPending: true
+    return new Promise((resolve, reject) => {
+      const modifiedQuestion = new QuestionModifier(question, this.$axios)
+      this.allQuestionsStatuses.push({
+        questionId: question.id || question._id,
+        isUpdateRequestPending: true
+      })
+      modifiedQuestion.inspectAllScenarios().updateIfNeeded()
+        .then(() => {
+          this.updateQuestionRequestStatuses(question.id, false)
+          this.pushQuestionToExamAttachList(modifiedQuestion)
+          // this.checkAllQuestionsRequestsAreFinished(modifiedQuestion)
+          resolve()
+        })
+        .catch(() => {
+          this.updateQuestionRequestStatuses(question.id, false)
+          this.pushQuestionToExamAttachList(modifiedQuestion)
+          // this.checkAllQuestionsRequestsAreFinished(modifiedQuestion)
+          reject()
+        })
     })
-    modifiedQuestion.inspectAllScenarios().updateIfNeeded()
-      .then(() => {
-        this.updateQuestionRequestStatuses(question.id, false)
-        this.pushQuestionToExamAttachList(modifiedQuestion)
-        this.checkAllQuestionsRequestsAreFinished(modifiedQuestion)
-      })
-      .catch(() => {
-        this.updateQuestionRequestStatuses(question.id, false)
-        this.pushQuestionToExamAttachList(modifiedQuestion)
-        this.checkAllQuestionsRequestsAreFinished(modifiedQuestion)
-      })
   }
 
   pushQuestionToExamAttachList (modifiedQuestion) {
@@ -227,8 +231,16 @@ class QuestionHandler {
     if (hasPendingExam) {
       return
     }
+    this.downloadAttachExamListJsonFile()
+  }
+
+  downloadAttachExamListJsonFile () {
+    this.downloadJsonFile(this.attachExamList)
+  }
+
+  downloadJsonFile (objectData) {
     const fileName = 'result.json'
-    const fileToSave = new Blob([JSON.stringify(this.attachExamList)], {
+    const fileToSave = new Blob([JSON.stringify(objectData)], {
       type: 'application/json'
     })
     saveAs(fileToSave, fileName)
@@ -239,22 +251,33 @@ class QuestionHandler {
     })
   }
 
-  initHandler () {
-    return new Promise((resolve, reject) => {
-      this.arrayOfQuestions.forEach((question) => {
-        this.initQuestionModifier(question)
-      })
-      resolve()
-    })
+  async questionHandler (question) {
+    await this.initQuestionModifier(question)
+  }
+
+  async initHandler () {
+    let counter = 0
+    for (const question of this.arrayOfQuestions) {
+      console.log('counter: ', counter++)
+      await this.questionHandler(question)
+    }
+    this.downloadAttachExamListJsonFile()
+    // this.arrayOfQuestions.forEach((question) => {
+    //   debugger
+    //   try {
+    //     console.log('question1')
+    //     this.questionHandler(question)
+    //     console.log('question2')
+    //     this.downloadAttachExamListJsonFile()
+    //   } catch (e) {
+    //     this.downloadAttachExamListJsonFile()
+    //   }
+    // })
   }
 
   run () {
     console.log('run')
-    return new Promise((resolve, reject) => {
-      this.initHandler().then((response) => {
-        resolve(response)
-      })
-    })
+    this.initHandler()
   }
 }
 export default QuestionHandler
