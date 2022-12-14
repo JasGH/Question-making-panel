@@ -1,7 +1,8 @@
 <template>
   <h5>THIS COMPONENT IS JUST FOR TEST</h5>
   <!--  <div class="text-center flex justify-center items-center">-->
-  <q-btn @click="run">fixQuestions</q-btn>
+  <q-btn @click="run1">fixQuestions1</q-btn>
+  <q-btn @click="run2">fixQuestions2</q-btn>
   ------------------------------------------
   <q-btn @click="doesHaveFailedQuestion">doesHaveFailedQuestion</q-btn>
   ------------------------------------------
@@ -95,11 +96,21 @@ export default {
     run () {
       this.$axios.get('allquestions.json')
         .then((res) => {
-          this.allQuestions = res.data
-          const a = new QuestionHandler(this.allQuestions.slice(70000, (this.allQuestions.length)), this.$axios)
-          a.run()
+          // const allQuestions = res.data
+          // const a = new QuestionHandler(allQuestions.slice(70000, (allQuestions.length)), this.$axios)
+          // a.run()
+          (new QuestionHandler(res.data, this.$axios)).run()
           // console.log('res.data.length', res.data.length)
         })
+    },
+    run1 () {
+      this.$axios.get('allquestions.json')
+        .then((res) => {
+          window.largeFile = res.data
+        })
+    },
+    run2 () {
+      (new QuestionHandler(window.largeFile, this.$axios)).run()
     },
     getFile () {
       // this.$axios.get('result8.json')
