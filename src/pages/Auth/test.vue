@@ -1,10 +1,13 @@
 <template>
   <h5>THIS COMPONENT IS JUST FOR TEST</h5>
   <!--  <div class="text-center flex justify-center items-center">-->
-  <q-btn @click="run1">fixQuestions1</q-btn>
-  <q-btn @click="run2">fixQuestions2</q-btn>
+  <q-btn @click="run1">Download All Questions</q-btn>
+  <q-btn @click="run2">fix Questions and get base results</q-btn>
+  <q-btn @click="run3">update Broken Questions</q-btn>
   ------------------------------------------
   <q-btn @click="doesHaveFailedQuestion">doesHaveFailedQuestion</q-btn>
+  ------------------------------------------
+  <q-btn @click="getFile">get result to attach file</q-btn>
   ------------------------------------------
 <!--  <q-btn @click="fixQuestions(0)">attach1</q-btn>-->
 <!--  <q-btn @click="fixQuestions(1)">attach2</q-btn>-->
@@ -32,8 +35,9 @@
 // import VideoPlayer from 'components/VideoPlayer'
 // import { PlayerSourceList } from 'src/models/PlayerSource'
 import QuestionHandler from 'src/questionRepairer/QuestionHandler'
+import API_ADDRESS from 'src/api/Addresses'
 // import API_ADDRESS from 'src/api/Addresses'
-// import { saveAs } from 'file-saver'
+import { saveAs } from 'file-saver'
 
 export default {
   name: 'Test',
@@ -57,7 +61,9 @@ export default {
       count: 0,
       index: 0,
       sent: 0,
-      countOfExamAttach: 0
+      countOfExamAttach: 0,
+      timesAllowedToUpdateQuestion: 5,
+      timesQuestionHasBeenUpdated: 0
     }
   },
   props: {
@@ -107,43 +113,58 @@ export default {
       this.$axios.get('allquestions.json')
         .then((res) => {
           window.largeFile = res.data
+          console.log('file loaded')
         })
     },
     run2 () {
       (new QuestionHandler(window.largeFile, this.$axios)).run()
     },
+    run3 () {
+      this.$axios.get('allResult.json')
+        .then((res) => {
+          this.initHandler(res.data[19].questions)
+          console.log('file loaded')
+        })
+    },
     getFile () {
-      // this.$axios.get('result8.json')
-      //   .then((res) => {
-      //     this.allResult = res.data
-      //     console.log('file loaded')
-      //   })
+      this.$axios.get('allResult.json')
+        .then((res) => {
+          const a = res.data
+          a[19].questions = []
+          this.fillAllResult(a)
+          const fileName = 'allResultToAttach.json'
+          const fileToSave = new Blob([JSON.stringify(this.allResult)], {
+            type: 'application/json'
+          })
+          saveAs(fileToSave, fileName)
+          console.log('file loaded', this.allResult)
+        })
 
-      const promise1 = this.$axios.get('result1.json')
-      const promise2 = this.$axios.get('result2.json')
-      const promise3 = this.$axios.get('result3.json')
-      const promise4 = this.$axios.get('result4.json')
-      const promise5 = this.$axios.get('result5.json')
-      const promise6 = this.$axios.get('result6.json')
-      const promise7 = this.$axios.get('result7.json')
-      const promise8 = this.$axios.get('result8.json')
-
-      Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7, promise8]).then((res) => {
-        this.fillAllResult(res[0].data)
-        this.fillAllResult(res[1].data)
-        this.fillAllResult(res[2].data)
-        this.fillAllResult(res[3].data)
-        this.fillAllResult(res[4].data)
-        this.fillAllResult(res[5].data)
-        this.fillAllResult(res[6].data)
-        this.fillAllResult(res[7].data)
-        // const fileName = 'allResult.json'
-        // const fileToSave = new Blob([JSON.stringify(this.allResult)], {
-        //   type: 'application/json'
-        // })
-        // saveAs(fileToSave, fileName)
-        console.log('file loaded')
-      })
+      // const promise1 = this.$axios.get('result1.json')
+      // const promise2 = this.$axios.get('result2.json')
+      // const promise3 = this.$axios.get('result3.json')
+      // const promise4 = this.$axios.get('result4.json')
+      // const promise5 = this.$axios.get('result5.json')
+      // const promise6 = this.$axios.get('result6.json')
+      // const promise7 = this.$axios.get('result7.json')
+      // const promise8 = this.$axios.get('result8.json')
+      //
+      // Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7, promise8]).then((res) => {
+      //   this.fillAllResult(res[0].data)
+      //   this.fillAllResult(res[1].data)
+      //   this.fillAllResult(res[2].data)
+      //   this.fillAllResult(res[3].data)
+      //   this.fillAllResult(res[4].data)
+      //   this.fillAllResult(res[5].data)
+      //   this.fillAllResult(res[6].data)
+      //   this.fillAllResult(res[7].data)
+      //   // const fileName = 'allResult.json'
+      //   // const fileToSave = new Blob([JSON.stringify(this.allResult)], {
+      //   //   type: 'application/json'
+      //   // })
+      //   // saveAs(fileToSave, fileName)
+      //   console.log('file loaded')
+      // })
     },
     fillAllResult(fileData) {
       const fileDataArray = [
@@ -182,6 +203,51 @@ export default {
         return null
       }).filter(attachExamObj => attachExamObj)
       console.log('allFailedQuestions', allFailedQuestions)
+    },
+    updateQuestion (question) {
+      if (this.timesQuestionHasBeenUpdated === this.timesAllowedToUpdateQuestion) {
+        return
+      }
+      return new Promise((resolve, reject) => {
+        this.$axios.put(API_ADDRESS.question.update(question.id), question)
+          .then((response) => {
+            this.timesQuestionHasBeenUpdated++
+            resolve(response)
+          })
+          .catch((err) => {
+            this.timesQuestionHasBeenUpdated++
+            if (this.timesQuestionHasBeenUpdated === this.timesAllowedToUpdateQuestion) {
+              reject(err)
+            }
+            resolve(this.updateQuestion(question))
+          })
+      })
+    },
+    async questionHandler (questionModifier) {
+      this.timesQuestionHasBeenUpdated = 0
+      await this.updateQuestion(questionModifier.question)
+      questionModifier.updateFailed = false
+    },
+    async initHandler (arrayOfQuestions) {
+      let count = 0
+      for (const questionModifier of arrayOfQuestions) {
+        await this.questionHandler(questionModifier)
+        count++
+      }
+      console.log('count', count)
+      // this.downloadAttachExamListJsonFile()
+    },
+    downloadAttachExamListJsonFile (objectData) {
+      const fileName = 'result.json'
+      const fileToSave = new Blob([JSON.stringify(objectData)], {
+        type: 'application/json'
+      })
+      saveAs(fileToSave, fileName)
+      this.$q.notify({
+        type: 'positive',
+        message: 'download file now',
+        position: 'top'
+      })
     }
   },
   computed: {

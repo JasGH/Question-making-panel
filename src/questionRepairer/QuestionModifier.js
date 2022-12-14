@@ -19,7 +19,7 @@ import ElementsWithWrongSinus from './IssueModifiers/18.ElementsWithWrongSinus.j
 import ElementsWithWrongCosine from './IssueModifiers/19.ElementsWithWrongCosine.js'
 import ElementWithCurlyBrackets from './IssueModifiers/20.ElementWithCurlyBrackets.js'
 import ElementsWithWidehatTag from './IssueModifiers/14.ElementsWithWidehatTag.js'
-import API_ADDRESS from 'src/api/Addresses'
+// import API_ADDRESS from 'src/api/Addresses'
 
 class QuestionModifier {
   constructor (question = {}, axios) {
@@ -253,20 +253,21 @@ class QuestionModifier {
     }
     return new Promise((resolve, reject) => {
       window.countOfUR++
-      this.$axios.put(API_ADDRESS.question.update(this.question.id), this.question)
-        .then((response) => {
-          this.timesQuestionHasBeenUpdated++
-          this.updateFailed = false
-          resolve(response)
-        })
-        .catch((err) => {
-          this.timesQuestionHasBeenUpdated++
-          this.updateFailed = true
-          if (this.timesQuestionHasBeenUpdated === this.timesAllowedToUpdateQuestion) {
-            reject(err)
-          }
-          resolve(this.updateQuestion())
-        })
+      resolve()
+      // this.$axios.put(API_ADDRESS.question.update(this.question.id), this.question)
+      //   .then((response) => {
+      //     this.timesQuestionHasBeenUpdated++
+      //     this.updateFailed = false
+      //     resolve(response)
+      //   })
+      //   .catch((err) => {
+      //     this.timesQuestionHasBeenUpdated++
+      //     this.updateFailed = true
+      //     if (this.timesQuestionHasBeenUpdated === this.timesAllowedToUpdateQuestion) {
+      //       reject(err)
+      //     }
+      //     resolve(this.updateQuestion())
+      //   })
     })
   }
 

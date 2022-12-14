@@ -121,14 +121,14 @@ class QuestionHandler {
         isPending: false
       },
       {
-        examName: 'allFailedUpdateQuestions',
-        examId: '63998c042fd9a747500f81b5',
+        examName: 'ElementWithWrongTag',
+        examId: '63998c292fd9a747500f81d7',
         questions: [],
         isPending: false
       },
       {
-        examName: 'ElementWithWrongTag',
-        examId: '63998c292fd9a747500f81d7',
+        examName: 'allFailedUpdateQuestions',
+        examId: '63998c042fd9a747500f81b5',
         questions: [],
         isPending: false
       }
@@ -256,9 +256,7 @@ class QuestionHandler {
   }
 
   async initHandler () {
-    let counter = 0
     for (const question of this.arrayOfQuestions) {
-      console.log('counter: ', counter++)
       await this.questionHandler(question)
     }
     this.downloadAttachExamListJsonFile()
