@@ -239,7 +239,7 @@ class QuestionHandler {
   }
 
   downloadJsonFile (objectData) {
-    const fileName = 'result.json'
+    const fileName = 'allResult.json'
     const fileToSave = new Blob([JSON.stringify(objectData)], {
       type: 'application/json'
     })

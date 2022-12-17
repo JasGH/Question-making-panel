@@ -120,19 +120,19 @@ export default {
       (new QuestionHandler(window.largeFile, this.$axios)).run()
     },
     run3 () {
-      this.$axios.get('allResult.json')
+      this.$axios.get('allResultProduction.json')
         .then((res) => {
           this.initHandler(res.data[19].questions)
           console.log('file loaded')
         })
     },
     getFile () {
-      this.$axios.get('allResult.json')
+      this.$axios.get('allResultProduction.json')
         .then((res) => {
           const a = res.data
           a[19].questions = []
           this.fillAllResult(a)
-          const fileName = 'allResultToAttach.json'
+          const fileName = 'allResultToAttachProduction.json'
           const fileToSave = new Blob([JSON.stringify(this.allResult)], {
             type: 'application/json'
           })
