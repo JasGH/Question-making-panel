@@ -9,6 +9,21 @@
   ------------------------------------------
   <q-btn @click="getFile">get result to attach file</q-btn>
   ------------------------------------------
+  <q-btn @click="getFile">get result to attach file</q-btn>
+  ------------------------------------------
+  <div>
+    get all result
+    <div>over all : {{notRepeatedQCounts}}</div>
+    <div
+      v-for="(item, index) in allResult"
+      :key="index"
+    >
+      <div> exam name : {{ item.examName }}</div>
+      <div> exam id : {{ item.examId }}</div>
+      <div> length of questions : {{ item.questions.length }}</div>
+      -----------------------------------------------------------------------------
+    </div>
+  </div>
 <!--  <q-btn @click="fixQuestions(0)">attach1</q-btn>-->
 <!--  <q-btn @click="fixQuestions(1)">attach2</q-btn>-->
 <!--  <q-btn @click="fixQuestions(2)">attach3</q-btn>-->
@@ -58,6 +73,7 @@ export default {
       testValue7: '',
       allQuestions: [],
       allResult: [],
+      notRepeatedQCounts: 0,
       count: 0,
       index: 0,
       sent: 0,
@@ -139,32 +155,6 @@ export default {
           saveAs(fileToSave, fileName)
           console.log('file loaded', this.allResult)
         })
-
-      // const promise1 = this.$axios.get('result1.json')
-      // const promise2 = this.$axios.get('result2.json')
-      // const promise3 = this.$axios.get('result3.json')
-      // const promise4 = this.$axios.get('result4.json')
-      // const promise5 = this.$axios.get('result5.json')
-      // const promise6 = this.$axios.get('result6.json')
-      // const promise7 = this.$axios.get('result7.json')
-      // const promise8 = this.$axios.get('result8.json')
-      //
-      // Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7, promise8]).then((res) => {
-      //   this.fillAllResult(res[0].data)
-      //   this.fillAllResult(res[1].data)
-      //   this.fillAllResult(res[2].data)
-      //   this.fillAllResult(res[3].data)
-      //   this.fillAllResult(res[4].data)
-      //   this.fillAllResult(res[5].data)
-      //   this.fillAllResult(res[6].data)
-      //   this.fillAllResult(res[7].data)
-      //   // const fileName = 'allResult.json'
-      //   // const fileToSave = new Blob([JSON.stringify(this.allResult)], {
-      //   //   type: 'application/json'
-      //   // })
-      //   // saveAs(fileToSave, fileName)
-      //   console.log('file loaded')
-      // })
     },
     fillAllResult(fileData) {
       const fileDataArray = [
@@ -203,6 +193,23 @@ export default {
         return null
       }).filter(attachExamObj => attachExamObj)
       console.log('allFailedQuestions', allFailedQuestions)
+    },
+    countQuestions () {
+      this.$axios.get('allResultProduction.json')
+        .then((res) => {
+          this.allResult = res.data
+          this.filterRepeatedQuestionsFromExams(res.data)
+        })
+    },
+    filterRepeatedQuestionsFromExams (allResult) {
+      // const combined = []
+      let questionss = []
+      allResult.forEach(item => {
+        questionss = questionss.concat(item.questions)
+      })
+      console.log('questionss length', questionss.length)
+      const result = questionss.filter((questionn, questionIndex) => questionss.findIndex(q => q.question.id === questionn.question.id) === questionIndex)
+      console.log('result.length', result.length)
     },
     updateQuestion (question) {
       if (this.timesQuestionHasBeenUpdated === this.timesAllowedToUpdateQuestion) {
@@ -257,6 +264,7 @@ export default {
     window.countOfUR = 0
     window.countOfFlags = 0
     // this.getFile()
+    this.countQuestions()
   },
   beforeRouteEnter () {
     // console.log('debug beforeRouteEnter')
