@@ -29,16 +29,19 @@
             <div class="box-title">اضافه کردن به آزمون</div>
             <div class="details-container-1 default-details-container row">
               <div class="col-12 detail-box detail-box-first">
-                <div class="detail-box-title">آزمون</div>
-                <q-select
-                  v-model="selectedExam"
-                  borderless
-                  :options="exams.list"
-                  option-value="exam_id"
-                  option-label="title"
-                  :rules="selectorRules"
-                  :loading="exams.loading"
+                <!--                <div class="detail-box-title">آزمون</div>-->
+                <entity-crud-form-builder
+                  v-model:value="examListInputConfig"
                 />
+                <!--                <q-select-->
+                <!--                  v-model="selectedExam"-->
+                <!--                  borderless-->
+                <!--                  :options="exams.list"-->
+                <!--                  option-value="exam_id"-->
+                <!--                  option-label="title"-->
+                <!--                  :rules="selectorRules"-->
+                <!--                  :loading="exams.loading"-->
+                <!--                />-->
               </div>
               <div class="col-4 detail-box detail-box-first">
                 <div class="detail-box-title ">دفترچه</div>
@@ -66,7 +69,7 @@
               </div>
               <div class="col-3">
                 <div class="detail-box box-order">
-                  <div class="detail-box-title">ترتیب</div>
+                  <div class="detail-box-title">ترتیب در درس</div>
                   <q-input
                     v-model="order"
                     borderless
@@ -95,7 +98,7 @@
                   درس
                 </div>
                 <div class="col-1 exam-result-title">
-                  ترتیب
+                  ترتیب در درس
                 </div>
               </div>
               <div v-if="exams && lessons.list.length"
@@ -127,6 +130,7 @@
           </div>
           <div class="text-right close-btn-box">
             <q-btn
+              unelevated
               class="close-btn"
               label="بستن"
               color="primary"
@@ -141,12 +145,17 @@
 
 <script>
 import { Question } from 'src/models/Question'
-import { ExamList } from 'src/models/Exam'
+import { ExamList, Exam } from 'src/models/Exam'
 import { QuestSubcategoryList } from 'src/models/QuestSubcategory'
 import { QuestCategoryList } from 'src/models/QuestCategory'
+import { EntityCrudFormBuilder } from 'quasar-crud'
+import API_ADDRESS from 'src/api/Addresses'
 
 export default {
   name: 'AttachExam',
+  components: {
+    EntityCrudFormBuilder
+  },
   props: {
     imgPanelVisibility: {
       type: Boolean,
@@ -185,6 +194,66 @@ export default {
   data () {
     return {
       text: '',
+      examListInputConfig: [
+        {
+          type: 'entity',
+          name: 'exam',
+          label: 'آزمون ها',
+          selectionMode: 'multiple',
+          buttonColor: 'primary',
+          buttonTextColor: 'white',
+          buttonBadgeColor: 'amber-7',
+          indexConfig: {
+            apiAddress: API_ADDRESS.exam.base(),
+            tableTitle: 'لیست آزمون ها',
+            tableKeys: {
+              data: 'data',
+              total: 'meta.total',
+              currentPage: 'meta.current_page',
+              perPage: 'meta.per_page',
+              pageKey: 'page'
+            },
+            table: {
+              columns: [
+                {
+                  name: 'id',
+                  required: true,
+                  label: '#',
+                  align: 'left',
+                  field: row => row.id
+                },
+                {
+                  name: 'title',
+                  required: true,
+                  label: 'عنوان',
+                  align: 'left',
+                  field: row => row.title
+                }
+                // {
+                //   name: 'actions',
+                //   required: true,
+                //   label: '',
+                //   align: 'left',
+                //   field: ''
+                // }
+              ],
+              data: []
+            },
+            inputs: [
+              { type: 'input', name: 'statement', placeholder: 'عنوان', col: 'col-md-3' },
+              { type: 'date', name: 'start_at_from', col: 'col-md-4', placeholder: 'تاریخ شروع از' },
+              { type: 'date', name: 'start_at_till', col: 'col-md-4', placeholder: 'تاریخ شروع تا' }
+            ],
+            itemIdentifyKey: 'id'
+          },
+          itemIdentifyKey: 'id',
+          itemIndicatorKey: 'id',
+          value: [],
+          responseKey: '',
+          selected: [],
+          col: 'col-12'
+        }
+      ],
       draftBtnLoading: false,
       saveBtnLoading: false,
       selectedExam: null,
@@ -201,6 +270,29 @@ export default {
       questionData: this.question,
       modal: false,
       categoryDisability: false
+    }
+  },
+  watch: {
+    selectedCategory: {
+      handler () {
+        this.selectedLesson = ''
+      },
+      deep: true
+    },
+    examListInputConfig: {
+      handler (newVal) {
+        this.selectedExam = new Exam(newVal[0].selected[0])
+      },
+      deep: true
+    },
+    selectedExam: {
+      handler (newVal) {
+        if (!newVal) {
+          this.examListInputConfig[0].selected = []
+          this.examListInputConfig[0].value = []
+        }
+      },
+      deep: true
     }
   },
   computed: {
@@ -266,14 +358,6 @@ export default {
         return ''
       }
       return target.title
-    }
-  },
-  watch: {
-    selectedCategory: {
-      handler () {
-        this.selectedLesson = ''
-      },
-      deep: true
     }
   }
 }
@@ -585,7 +669,7 @@ export default {
     }
     .default-details-container {
       .detail-box {
-        .q-field {
+        :deep(.q-field){
           background: #FFFFFF;
           border-radius: 10px;
           line-height: 24px;
@@ -599,19 +683,18 @@ export default {
             padding-left: 16px;
           }
         }
-        .q-field--auto-height .q-field__native {
+        :deep(.q-field--auto-height .q-field__native){
           min-height: 40px;
           color: #65677F;
         }
-        .q-field--auto-height .q-field__control, .q-field--auto-height .q-field__native {
+        :deep( .q-field--auto-height .q-field__control, .q-field--auto-height .q-field__native){
           min-height: 40px;
           color: #65677F;
-
         }
-        .q-field__control::before, .q-field__control::after {
+        :deep(.q-field__control::before, .q-field__control::after){
           display: none;
         }
-        .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input {
+        :deep( .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input){
           color: #65677F;
         }
       }
@@ -620,31 +703,33 @@ export default {
 }
 .attach-exam-card {
   .question-details {
-    .q-card .attach-exam-card {
-      background: #FFFFFF;
-      border-radius: 15px;
+    :deep(.q-card){
+      .attach-exam-card {
+        background: #FFFFFF;
+        border-radius: 15px;
 
-      .q-card__section--vert {
-        padding: 30px;
+        .q-card__section--vert {
+          padding: 30px;
+        }
       }
     }
 
     //.attach-exam-card {
     .default-details-container {
       .box-order {
-        .q-field {
+        :deep(.q-field){
           width: 155px;
         }
       }
 
       .detail-box {
-        .q-field__control {
+        :deep(.q-field__control){
           height: 42px;
           background: #F4F5F6 ;
 
         }
 
-        .q-field {
+        :deep(.q-field){
           background: #F4F5F6 !important;
           border-radius: 10px;
           line-height: 24px;
@@ -664,30 +749,23 @@ export default {
             top: 15px;
           }
         }
-
-        .q-field--auto-height .q-field__native {
+        :deep(.q-field--auto-height .q-field__native){
           min-height: 40px;
           color: #65677F;
         }
-
-        .q-field--auto-height .q-field__control, .q-field--auto-height .q-field__native {
+        :deep(.q-field--auto-height .q-field__control, .q-field--auto-height .q-field__native){
           min-height: 40px;
           color: #65677F;
           background: #F4F5F6 ;
-
         }
-
-        .q-field__control::before, .q-field__control::after {
+        :deep(.q-field__control::before, .q-field__control::after){
           display: none;
         }
-
-        .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input {
+        :deep(.q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input){
           color: #65677F;
         }
       }
     }
-
-    //}
   }
 }
 .q-menu {

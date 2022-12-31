@@ -1,14 +1,13 @@
 <template>
   <div>
-    <entity-edit
-      v-model:value="inputs"
-      title="ویرایش اطلاعات آزمون"
-      :api="api"
-      :entity-id-key="entityIdKey"
-      :entity-param-key="entityParamKey"
-      :show-route-name="showRouteName"
-      :after-load-input-data="getOptions"
-      :before-get-data="getCategories"
+    <entity-edit :key="entityEdit"
+                 v-model:value="inputs"
+                 title="ویرایش اطلاعات آزمون"
+                 :api="api"
+                 :entity-id-key="entityIdKey"
+                 :entity-param-key="entityParamKey"
+                 :show-route-name="showRouteName"
+                 :before-load-input-data="beforeLoadInputData"
     >
       <template #after-form-builder>
         <q-card class="category-card">
@@ -107,6 +106,10 @@
             </div>
           </q-card-section>
         </q-card>
+        <q-inner-loading :showing="detachCategoryLoading">
+          <q-spinner-gears size="50px"
+                           color="primary" />
+        </q-inner-loading>
       </template>
     </entity-edit>
   </div>
@@ -124,11 +127,13 @@ export default {
       return this.inputs.findIndex(item => item.name === 'categories')
     },
     totalCategory () {
-      return this.inputs[this.examCategoriesIndex].value && this.inputs[this.examCategoriesIndex].value.length >= 2
+      return this.inputs[this.examCategoriesIndex].value && this.inputs[this.examCategoriesIndex].value.length >= 3
     }
   },
   data () {
     return {
+      detachCategoryLoading: false,
+      entityEdit: Date.now(),
       api: API_ADDRESS.exam.base(),
       entityIdKey: 'data.id',
       entityParamKey: 'data.id',
@@ -139,15 +144,15 @@ export default {
         {
           type: 'Select',
           name: 'type_id',
-          responseKey: 'data.type.value',
+          responseKey: 'data.type.id',
           label: ' انتخاب نوع آزمون',
           col: 'col-md-6',
           options: [],
           optionValue: 'id',
           optionLabel: 'value'
         },
-        { type: 'dateTime', name: 'start_at', responseKey: 'data.start_at', label: '', col: 'col-md-4', placeholder: 'زمان شروع' },
-        { type: 'dateTime', name: 'finish_at', responseKey: 'data.finish_at', label: '', col: 'col-md-4', placeholder: 'زمان پایان' },
+        { type: 'dateTime', name: 'start_at', responseKey: 'data.start_at', col: 'col-md-4', label: 'زمان شروع' },
+        { type: 'dateTime', name: 'finish_at', responseKey: 'data.finish_at', col: 'col-md-4', label: 'زمان پایان' },
         { type: 'input', name: 'delay_time', responseKey: 'data.delay_time', label: 'زمان تاخیر(دقیقه)', col: 'col-md-4' },
         { type: 'Checkbox', name: 'enable', responseKey: 'data.enable', label: 'فعال', col: 'col-md-4' },
         { type: 'Checkbox', name: 'is_free', responseKey: 'data.is_free', label: 'رایگان', col: 'col-md-4' },
@@ -158,10 +163,7 @@ export default {
         { type: 'hidden', name: 'categories', responseKey: 'data.categories', value: [] }
       ],
       category: { title: '', id: '', order: 0, time: 0 },
-      categoryOptions: [
-        { title: 'دفترچه سؤالات عمومی', id: '60b7858d743940688b23c7f3' },
-        { title: 'دفترچه سؤالات اختصاصی', id: '60b7858d743940688b23c7f4' }
-      ]
+      categoryOptions: []
     }
   },
   created () {
@@ -169,13 +171,17 @@ export default {
       loading: true
     })
     this.api += '/' + this.$route.params.id
+    this.getOptions()
     this.getCategoryList()
   },
   methods: {
-    getCategories (response, setNewInputData) {
+    beforeLoadInputData (response, setNewInputData) {
       if (!response) {
         return
       }
+      this.getCategories(response)
+    },
+    getCategories (response, setNewInputData) {
       const responseCategories = response.data.categories
       const categoriesIndex = this.inputs.findIndex(item => item.name === 'categories')
       this.inputs[categoriesIndex].value = responseCategories
@@ -187,26 +193,38 @@ export default {
         })
         .catch(() => {})
     },
+    setExamTypeOptions (options) {
+      const examTypeInputIndex = this.inputs.findIndex(item => item.name === 'type_id')
+      if (examTypeInputIndex === -1) {
+        return
+      }
+      this.inputs[examTypeInputIndex].options = options
+    },
     getOptions () {
       this.$axios.get(API_ADDRESS.option.base)
         .then((response) => {
           const options = response.data.data.filter(data => data.type === 'exam_type')
-          this.inputs.forEach(input => {
-            if (input.name === 'type_id') {
-              options.forEach(type => {
-                input.options.push(type)
-                input.value = type.id
-              })
-            }
-          })
+          this.setExamTypeOptions(options)
           this.addBreadcrumb()
         })
         .catch(() => {
         })
     },
     deleteCategory (id) {
-      const index = this.inputs[this.examCategoriesIndex].value.findIndex(item => item.id === id)
-      this.inputs[this.examCategoriesIndex].value.splice(index, 1)
+      this.detachCategoryLoading = true
+      this.$axios.delete(API_ADDRESS.exam.detachCategory(this.$route.params.id, id))
+        .then(() => {
+          this.entityEdit = Date.now()
+          this.detachCategoryLoading = false
+          this.getCategoryList()
+        })
+        .catch(() => {
+          this.entityEdit = Date.now()
+          this.detachCategoryLoading = false
+          this.getCategoryList()
+        })
+      // const index = this.inputs[this.examCategoriesIndex].value.findIndex(item => item.id === id)
+      // this.inputs[this.examCategoriesIndex].value.splice(index, 1)
     },
     addCategory () {
       if (this.totalCategory) {
