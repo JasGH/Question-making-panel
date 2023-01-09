@@ -11,12 +11,12 @@
 import mixinConvertToTiptap from 'vue-tiptap-katex-core/mixins/convertToTiptap'
 import katex from 'katex'
 import 'katex/dist/katex.css'
-import addPersianTo from 'persian-katex-plugin'
-import 'src/assets/fonts/katex-persian-fonts/index.css'
-import allMetrics from 'src/assets/fonts/katex-persian-fonts/iranyekanFontMetrics.json'
+import persianKatexPlugin from 'src/persian-katex-plugin/src/index.mjs'
+import 'src/persian-katex-plugin/katex-persian-fonts/index.css'
+import allMetrics from 'src/persian-katex-plugin/katex-persian-fonts/YekanBakhFontMetrics.json'
 
-addPersianTo(katex, {
-  fontName: 'iranyekan',
+persianKatexPlugin(katex, {
+  fontName: 'YekanBakh',
   fontMetrics: allMetrics
 })
 
