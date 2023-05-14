@@ -7133,10 +7133,8 @@ vue3-otp-input@^0.4.1:
   resolved "https://registry.yarnpkg.com/vue3-otp-input/-/vue3-otp-input-0.4.1.tgz#4757cc771bb0c723e34b78857424322079d07fae"
   integrity sha512-wVl9i3DcWlO0C7fBI9V+RIP3crm/1tY72fuhvb3YM2JfbLoYofB96aPl5AgFhA0Cse5bQEMYtIvOeiqW3rfbAw==
 
-vue3-tiptap-katex@^1.0.54:
+"vue3-tiptap-katex@file:../vue3-tiptap-katex":
   version "1.0.54"
-  resolved "https://registry.yarnpkg.com/vue3-tiptap-katex/-/vue3-tiptap-katex-1.0.54.tgz#7a818dcd56280dba0dd609e039af238bcbfc7c1b"
-  integrity sha512-0f3vw4ZHSWDy/+EPacJBjZclAj+urQyFLukiOzeWHClCKhRb0rDuwFoSPo5f22uylzVh+UpkiYW7bPW56Awhlg==
   dependencies:
     "@ckpack/vue-color" "^1.1.9"
     "@mdi/font" "^6.9.96"

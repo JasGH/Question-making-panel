@@ -1,13 +1,15 @@
 <template>
-  <h5>THIS COMPONENT IS JUST FOR TEST</h5>
+  <question-field ref="tiptapChoice"
+                  :key="key" />
 </template>
 
 <script>
 import API_ADDRESS from 'src/api/Addresses.js'
+import QuestionField from 'src/components/Question/QuestionPage/QuestionField.vue'
 
 export default {
   name: 'Test',
-  components: { },
+  components: { QuestionField },
   mixins: [],
   beforeRouteEnter () {
     // console.log('debug beforeRouteEnter')
@@ -29,7 +31,8 @@ export default {
   data () {
     return {
       testValue: '',
-      testValue1: ''
+      testValue1: '',
+      key: 0
     }
   },
   computed: {
@@ -55,6 +58,10 @@ export default {
   },
   created () {
     // console.log('debug created')
+    const that = this
+    setTimeout(() => {
+      that.key = 'Date.now()'
+    }, 100)
   },
   mounted () {
     // console.log('debug mounted')
