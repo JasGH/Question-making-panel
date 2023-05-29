@@ -448,6 +448,15 @@ export default {
     },
     generatePDF (ref) {
       this.downloadLoading = true
+      // html2canvas: {
+      //   dpi: 1200,
+      //     scale: 1,
+      //     letterRendering: true,
+      //     allowTaint: true
+      // },
+      // jsPDF: {
+      //   compress: true
+      // }
       html2pdf()
         .set({
           image: { type: 'png', quality: 1 },
